@@ -1,9 +1,6 @@
-{% extends "layout.html" %}
-{% block title %}
-Home
-{% endblock %}
-{% block content %}
-<p>Home page for the Visual Studio Code Flask tutorial.</p>
+<!doctype html>
+<title>Python Flask File Upload Example</title>
+<h2>Select a file to upload</h2>
 <p>
 	{% with messages = get_flashed_messages(category_filter=["response"]) %}
 	  {% if messages %}
@@ -44,4 +41,3 @@ Home
 	  {% endif %}
 	{% endwith %}
 </p>
-{% endblock %}
