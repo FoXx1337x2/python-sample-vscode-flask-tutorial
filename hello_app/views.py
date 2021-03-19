@@ -73,3 +73,4 @@ def upload_file():
             return redirect(request.url)
 
         #krasne :)
+        #ADIOJOIJDWIOWDQOIWEQIO
