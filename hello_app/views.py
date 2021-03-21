@@ -8,7 +8,8 @@ import sys
 import logging
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-UPLOAD_FOLDER = str(pathlib.Path().absolute()) +'\\uploaded_files'
+# UPLOAD_FOLDER = str(pathlib.Path().absolute()) +'\\uploaded_files'
+UPLOAD_FOLDER = '.'
 logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
 handler = logging.FileHandler('test.log') # creates handler for the log file
 logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
@@ -77,7 +78,7 @@ def upload_file():
                 return redirect(request.url)
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join('lele', filename))
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
                 flash('File successfully uploaded', 'response')
                 return redirect('/')
             else:
@@ -89,6 +90,7 @@ def upload_file():
     except:
         flash(str(sys.stdout), 'response')
         return redirect('/')
+
 
         #krasne :)
         #ADIOJOIJDWIOWDQOIWEQIO

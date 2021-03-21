@@ -1,0 +1,6 @@
+TERM - keyword
+MATCH - analyzed - text
+
+MUST - zvysuje relevanciu
+filter - nezvysuje
+should - nemusi byt a zvysuje relevanciu
