@@ -5,9 +5,13 @@ import os
 from werkzeug.utils import secure_filename
 import pathlib
 import sys
+import logging
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 UPLOAD_FOLDER = str(pathlib.Path().absolute()) +'\\uploaded_files'
+logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
+handler = logging.FileHandler('test.log') # creates handler for the log file
+logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -46,11 +50,17 @@ def get_file(file):
 
 @app.route('/files')
 def get_files():
-    onlyfiles = os.listdir("lalala")
-    for file in onlyfiles:
-        flash(file,'files')
+    try:
+        onlyfiles = os.listdir(UPLOAD_FOLDER)
+        for file in onlyfiles:
+            flash(file,'files')
 
-    return redirect('/')
+        return redirect('/')
+    except Exception as ue:
+        logger.error("Unexpected Error: malformed JSON in POST request, check key/value pair at: ")
+        logger.error(ue)
+        return redirect('/')
+
 
 
 @app.route('/uploader', methods=['POST'])
