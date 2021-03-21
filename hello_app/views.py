@@ -9,7 +9,7 @@ import logging
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 # UPLOAD_FOLDER = str(pathlib.Path().absolute()) +'\\uploaded_files'
-UPLOAD_FOLDER = '.'
+UPLOAD_FOLDER = './UPLOADS'
 logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
 handler = logging.FileHandler('test.log') # creates handler for the log file
 logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
