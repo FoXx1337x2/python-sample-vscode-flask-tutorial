@@ -4,6 +4,7 @@ from . import app
 import os
 from werkzeug.utils import secure_filename
 import pathlib
+import sys
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 UPLOAD_FOLDER = str(pathlib.Path().absolute()) +'\\uploaded_files'
@@ -45,7 +46,7 @@ def get_file(file):
 
 @app.route('/files')
 def get_files():
-    onlyfiles = os.listdir(UPLOAD_FOLDER)
+    onlyfiles = os.listdir("lalala")
     for file in onlyfiles:
         flash(file,'files')
 
@@ -54,23 +55,30 @@ def get_files():
 
 @app.route('/uploader', methods=['POST'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part', 'response')
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            flash('No file selected for uploading', 'response')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-            flash('File successfully uploaded', 'response')
-            return redirect('/')
-        else:
-            flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif', 'response')
-            return redirect(request.url)
+    try:
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part', 'response')
+                return redirect(request.url)
+            file = request.files['file']
+            if file.filename == '':
+                flash('No file selected for uploading', 'response')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join('lele', filename))
+                flash('File successfully uploaded', 'response')
+                return redirect('/')
+            else:
+                print(str(sys.stderr))
+                print(str(sys.stdout))
+                print(str(sys.stdin))
+                flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif', 'response')
+                return redirect(request.url)
+    except:
+        flash(str(sys.stdout), 'response')
+        return redirect('/')
 
         #krasne :)
         #ADIOJOIJDWIOWDQOIWEQIO
