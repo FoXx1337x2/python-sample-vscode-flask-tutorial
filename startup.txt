@@ -1,1 +1,2 @@
+export set FLASK_ENV=development
 gunicorn --bind=0.0.0.0 --workers=4 startup:app
