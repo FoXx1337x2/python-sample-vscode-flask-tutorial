@@ -25,6 +25,5 @@ scipy
 similaritymeasures
 six
 SQLAlchemy
-tk
 urllib3
 Werkzeug
