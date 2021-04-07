@@ -6,7 +6,7 @@ decorator
 Flask
 future
 greenlet
-idna
+idna==3.0
 itsdangerous
 Jinja2
 kiwisolver
