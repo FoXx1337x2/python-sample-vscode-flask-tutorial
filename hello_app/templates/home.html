@@ -1,3 +1,4 @@
+  
 {% extends "layout.html" %}
 {% block title %}
 Home - Bye
@@ -19,7 +20,7 @@ Home - Bye
 <form method="post" action="/uploader" enctype="multipart/form-data">
     <dl>
 		<p>
-			<input type="file" name="file" autocomplete="off" required>
+			<input type="file" name="files[]" multiple="true" autocomplete="off" required>
 		</p>
     </dl>
     <p>
