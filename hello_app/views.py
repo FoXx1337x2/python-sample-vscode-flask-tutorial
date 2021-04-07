@@ -1,20 +1,8 @@
-import math
 import os
-from os import listdir
-from os.path import isfile, join
-# import magic
-import urllib.request
 from turtle import pd
-import tk
-import json
-import numpy as np
-import math
-
 from . import app
 from pandas import DataFrame
 from scipy.spatial import distance
-import json
-from datetime import datetime, date
 import pandas as pd
 import math
 from math import sqrt
@@ -26,10 +14,8 @@ from numpy import array, zeros
 from numpy import cos, sin, arcsin
 from similaritymeasures import curve_length_measure, frechet_dist
 from obspy.geodetics import degrees2kilometers
-
 import numpy as np
-
-from flask import Flask, flash, request, redirect, render_template, send_from_directory, jsonify
+from flask import Flask, flash, request, redirect, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 from datetime import datetime, date
 import json
