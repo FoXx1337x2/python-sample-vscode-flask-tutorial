@@ -124,8 +124,8 @@ def separate_laps(traces, ref_lap=None):
     return laps
 
 def get_calc(reference,traces):
-    reference_file_path = str(os.path.join(UPLOAD_FOLDER) + "/" + reference.filename)
-    traces_file_path = str(os.path.join(UPLOAD_FOLDER) + "/" + traces.filename)
+    reference_file_path = str(os.path.join(UPLOAD_FOLDER) + "/" + reference)
+    traces_file_path = str(os.path.join(UPLOAD_FOLDER) + "/" + traces)
 
     reference_df = log_to_dataFrame(reference_file_path)
     normalize_logs(reference_df)
@@ -192,34 +192,28 @@ def get_files():
 
 @app.route('/uploader', methods=['POST', 'GET'])
 def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'reference' not in request.files:
-            flash('Reference file is missing', 'response')
-            return redirect(request.url)
-        if 'traces' not in request.files:
-            flash('Trace file is missing', 'response')
-            return redirect(request.url)
-        reference = request.files['reference']
-        traces = request.files['traces']
-        if (reference.filename == '') or (traces.filename == ''):
-            flash('No file selected for uploading', 'response')
-            return redirect(request.url)
-
-        files = []
-        files.append(reference)
-        files.append(traces)
-
-        for file in files:
-            if file:
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(UPLOAD_FOLDER, filename))
-                flash('File successfully uploaded', 'response')
-            else:
-                flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif', 'response')
+    try:
+        if request.method == 'POST':
+            # check if the post request has the file part
+            if 'files[]' not in request.files:
+                flash('No file part', 'response')
                 return redirect(request.url)
+            files = request.files.getlist('files[]')
+            filenames = []
+            for file in files:
+                if file:
+                    filename = secure_filename(file.filename)
+                    filenames.append(filename)
+                    file.save(os.path.join(UPLOAD_FOLDER, filename))
+                    flash('File successfully uploaded', 'response')
+                    # return redirect('/')
+                else:
+                    flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif', 'response')
+                    return redirect(request.url)
 
-        return get_calc(reference,traces)
+            return get_calc(filenames[0], filenames[1])
+    except:
+        return redirect('/')
 
 
         #krasne :)
