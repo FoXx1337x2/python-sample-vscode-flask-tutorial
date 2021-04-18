@@ -1,9 +1,11 @@
+Flask
+tk
+obspy
 certifi
 chardet
 click
 cycler
 decorator
-Flask
 future
 greenlet
 idna==3.0
@@ -14,7 +16,6 @@ lxml
 MarkupSafe
 matplotlib
 numpy
-obspy
 pandas
 Pillow
 pyparsing

@@ -387,6 +387,7 @@ def analyze_laps(traces, reference_lap, laps):
     data_dict['lapData'].append(json.loads(lap_data.to_json(orient="records")))
 
     data_frame = pd.DataFrame(data=data_dict)
+    print("???!!!")
     return data_frame
 
 
@@ -608,6 +609,12 @@ def find_out_difference_perpendiculars(lap: pd.DataFrame, ref_lap: pd.DataFrame)
 
 
 def get_calc(reference,traces):
+    if "reference" not in reference:
+        switch = reference
+        reference = traces
+        traces = switch
+
+    print("\n\n\n\n\n\n\nreference:" + reference + " / traces:" + traces + "\n\n\n\n\n\n\n")
     reference_file_path = str(os.path.join(UPLOAD_FOLDER) + "/" + reference)
     traces_file_path = str(os.path.join(UPLOAD_FOLDER) + "/" + traces)
 
@@ -619,7 +626,7 @@ def get_calc(reference,traces):
 
     laps = separate_laps(traces_df, reference_df)
     analyzed_laps = analyze_laps(traces_df, reference_df, laps)
-
+    print("pls")
     json = put_laps_to_json(analyzed_laps)
     json = json.encode()
     # print(json)
@@ -692,9 +699,10 @@ def upload_file():
                 else:
                     flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif', 'response')
                     return redirect(request.url)
-
+            print("lalaa")
             return get_calc(filenames[0], filenames[1])
     except:
+        print("yaya")
         return redirect('/')
 
 
