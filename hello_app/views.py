@@ -406,6 +406,9 @@ def save_laps_to_files(file_path, file_name, laps):
 def put_laps_to_json(laps):
     return laps.to_json(orient="records")
 
+def put_export_to_json(laps):
+    print(laps.to_json(orient="columns"))
+    return laps.to_json(orient="columns")
 
 def get_number_of_lines(file_path):
     with open(file_path) as f:
@@ -608,6 +611,22 @@ def find_out_difference_perpendiculars(lap: pd.DataFrame, ref_lap: pd.DataFrame)
     return distances / distances_count
 
 
+def get_data_for_export(traces_df: DataFrame, laps: list) -> DataFrame:
+    drop_unnecessary_columns(traces_df)
+    traces_df.drop(columns=['TIME'], inplace=True)
+    split = []
+    for i in range(len(laps) - 1):
+        lap_data = traces_df.iloc[laps[i]: laps[i + 1]]
+        lap_data.reset_index(inplace=True)
+        split.append(put_laps_to_json(lap_data))
+
+    lap_data = traces_df.iloc[laps[-1:]]
+    lap_data.reset_index(inplace=True)
+    split.append(put_laps_to_json(lap_data))
+
+    return split
+
+
 def get_calc(reference,traces):
     if "reference" not in reference:
         switch = reference
@@ -626,9 +645,16 @@ def get_calc(reference,traces):
 
     laps = separate_laps(traces_df, reference_df)
     analyzed_laps = analyze_laps(traces_df, reference_df, laps)
-    print("pls")
-    json = put_laps_to_json(analyzed_laps)
-    json = json.encode()
+    exported_laps = get_data_for_export(traces_df, laps)
+
+    analyzed_json = put_laps_to_json(analyzed_laps)
+    # exported_json = put_export_to_json(exported_laps)
+
+
+
+    json = {"analyzed":analyzed_json,"exported":exported_laps}
+
+    json = str(json).encode()
     # print(json)
     return json
 ######################CarComp##########################
